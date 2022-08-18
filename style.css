@@ -1,0 +1,28 @@
+* {
+    color: white;
+}
+
+.background {
+    padding: 20px 30px 80px 30px;
+    background-color:darkcyan;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.content {
+    width: 100%;
+    height: 500px;
+    background-color: blue;
+    display: grid;
+    grid-template-columns: repeat(32, 1fr);
+    grid-template-rows: repeat(40, 1fr);
+}
+
+#modes {
+    color: black;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
