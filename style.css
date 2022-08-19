@@ -8,7 +8,7 @@ body {
 
 .background {
     height: 90vh;
-    padding: 20px 30px 50px 30px;
+    padding: 20px 20px 50px 20px;
     background-color:darkcyan;
     display: flex;
     flex-direction: column;
@@ -29,4 +29,9 @@ body {
 .scores {
     display: flex;
     justify-content: space-between;
+}
+
+.square {
+    height: 12px;
+    width: 12px;
 }
