@@ -2,6 +2,8 @@
 // in order to move the snake
 
 
+/// MOVE SNAKE TO ANOTHER FILE !!!!!
+
 class Snake {
     constructor() {
         this.headX = 1;
@@ -26,21 +28,38 @@ class Snake {
 
     grow(amount) {
         for (let i=0; i<amount; i++) {
-            
+            // this pushes the current location of the food to the tail of the snake
+            this.body.push([this.headX, this.headY]);
+        console.log(this.body);
         }
     }
 
-    selectDiv() {
-        this.headDiv = document.getElementById(`${this.headX}-${this.headY}`);
+    moveTail() {
+        for (let i=(this.body.length - 1); i>0; i--) {
+            this.body[i] = this.body[i-1];
+        }
+    };
+    
+    moveHead() {
+        this.body[0] = [this.headX, this.headY];
     }
 
-    draw() {
-        this.selectDiv();
-        this.headDiv.style.backgroundColor = 'white';
+    coordinatesInGrid(x, y) {
+        return (x >= 0 && x < columns && y >= 0 && y < rows);
+    }
+
+    selectAndDrawDivs() {
+        for (let i=0; i<this.body.length; i++) {
+            if (this.coordinatesInGrid(this.body[i][0], this.body[i][1])) {
+                let snakeBlock = document.getElementById(`${this.body[i][0]}-${this.body[i][1]}`)
+                snakeBlock.style.backgroundColor = 'white';
+            }
+
+        }
     }
 
     update() {
-        this.selectDiv();
+        this.selectAndDrawDivs();
 
         if (this.currDirection == 'up') {
             this.moveUp();
@@ -54,16 +73,14 @@ class Snake {
         else if (this.currDirection == 'right') {
             this.moveRight();
         }
-    }
-        
-        // detect collisions with wall / food
-        // detect food
-    
+        this.moveTail();
+        this.moveHead();
+    }    
 
 }
 
 function reset() {
-    // deletes all the divs
+    // deletes all the grid divs
     let squares = content.querySelectorAll('div');
     squares.forEach((div) => div.remove());
 }
@@ -79,6 +96,56 @@ function drawFood() {
     foodDiv.style.backgroundColor = 'red';
 
 }
+
+function placeFood() {
+    randomizeFood();
+    drawFood();
+}
+
+function foodCollide() {
+    if (snake.headX == foodX && snake.headY == foodY) {
+        snake.grow(1);
+        placeFood();
+    }
+}
+
+function wallCollide() {
+    // Once the snake hits a wall, it teleports to the other side
+    if (snake.headX < 0 ) {
+        snake.headX = (columns - 1);
+    }
+    else if (snake.headX > (columns - 1)) {
+        snake.headX = 0;
+    }
+    else if (snake.headY < 0 ) {
+        snake.headY = (rows - 1);
+    }
+    else if (snake.headY > (rows - 1)) {
+        snake.headY = 0;
+    }
+}
+
+
+
+function selfCollide() {
+    for (let i=1; i<snake.body.length - 1; i++) {
+        if (snake.body[i][0] == snake.headX && snake.body[i][1] == snake.headY) {
+            loseScreen();
+        }
+    }
+
+}
+
+function checkCollisions() {
+    wallCollide();
+    foodCollide();
+    selfCollide();
+}
+
+function loseScreen() {
+    clearInterval(intervalId);
+}
+
 
 function createGrid() {
     reset();  // change the name of this function maybe
@@ -107,37 +174,35 @@ let content = document.getElementById('content');
 let run = false;
 let foodX = 0;
 let foodY = 0;
+let intervalId = 0;
 
 
 createGrid();
-randomizeFood();
-drawFood();
+placeFood();
 
 let snake = new Snake();
-snake.draw();
+snake.selectAndDrawDivs();
 ////
 
 
 function updateGame() {
     createGrid();
     drawFood();
+    checkCollisions();
+    snake.selectAndDrawDivs();
     snake.update();
-    snake.draw();
-    console.log(snake.currDirection);
 }
 
 function startGame() {
-    setInterval(() => updateGame(), 150); // set time based on difficulty
+    //setInterval(() => updateGame(), 50); // set time based on difficulty
+    intervalId = setInterval(updateGame, 50); // set time based on difficult
 }
-
-
 
 window.addEventListener('resize', () => 
 {
     createGrid();
-    randomizeFood();
-    drawFood();
-    snake.draw();
+    placeFood();
+    snake.selectAndDrawDivs();
 
 });
 
