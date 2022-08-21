@@ -1,22 +1,66 @@
-// Advanced Settings
+// create an event loop that repeats every amount of time (depending on the difficulty)
+// in order to move the snake
 
 
+class Snake {
+    constructor() {
+        this.headX = 1;
+        this.headY = 1;
+        this.headDiv = document.getElementById('1-1');
+        this.currDirection = '';
+        this.body = [[this.headX, this.headY]];
+    }
 
+    moveUp() {
+        this.headY -= 1;
+    }
+    moveDown() {
+        this.headY += 1;
+    }
+    moveLeft() {
+        this.headX -= 1;
+    }
+    moveRight() {
+        this.headX += 1;
+    }  
 
-document.addEventListener('keydown', (e) => {
-    if (e.key == "w" || e.key == 'ArrowUp') {
-        console.log("up");
+    grow(amount) {
+        for (let i=0; i<amount; i++) {
+            
+        }
     }
-    if (e.key == "s" || e.key == 'ArrowDown') {
-        console.log("down");
+
+    selectDiv() {
+        this.headDiv = document.getElementById(`${this.headX}-${this.headY}`);
     }
-    if (e.key == "a" || e.key == 'ArrowLeft') {
-        console.log("left");
+
+    draw() {
+        this.selectDiv();
+        this.headDiv.style.backgroundColor = 'white';
     }
-    if (e.key == "d" || e.key == 'ArrowRight') {
-        console.log("right");
+
+    update() {
+        this.selectDiv();
+
+        if (this.currDirection == 'up') {
+            this.moveUp();
+        } 
+        else if (this.currDirection == 'down') {
+            this.moveDown();
+        }
+        else if (this.currDirection == 'left') {
+            this.moveLeft();
+        }
+        else if (this.currDirection == 'right') {
+            this.moveRight();
+        }
     }
-})
+        
+        // detect collisions with wall / food
+        // detect food
+    
+
+}
 
 function reset() {
     // deletes all the divs
@@ -24,13 +68,16 @@ function reset() {
     squares.forEach((div) => div.remove());
 }
 
-function placeFood() {
-    // Creates and places food in a random square on the grid
-    let foodX = Math.floor(Math.random() * columns);
-    let foodY = Math.floor(Math.random() * rows);
+function randomizeFood() {
+    // Selects a location on the grid for the food
+    foodX = Math.floor(Math.random() * columns);
+    foodY = Math.floor(Math.random() * rows);
+}
 
+function drawFood() {
     let foodDiv = document.getElementById(`${foodX}-${foodY}`);
     foodDiv.style.backgroundColor = 'red';
+
 }
 
 function createGrid() {
@@ -53,17 +100,63 @@ function createGrid() {
     }
 }
 
+////
 let rows = 0;
 let columns = 0;
 let content = document.getElementById('content');
+let run = false;
+let foodX = 0;
+let foodY = 0;
+
 
 createGrid();
-placeFood();
+randomizeFood();
+drawFood();
+
+let snake = new Snake();
+snake.draw();
+////
+
+
+function updateGame() {
+    createGrid();
+    drawFood();
+    snake.update();
+    snake.draw();
+    console.log(snake.currDirection);
+}
+
+function startGame() {
+    setInterval(() => updateGame(), 150); // set time based on difficulty
+}
+
+
 
 window.addEventListener('resize', () => 
 {
     createGrid();
-    placeFood();
-
+    randomizeFood();
+    drawFood();
+    snake.draw();
 
 });
+
+document.addEventListener('keydown', (e) => {
+    if (!run) {
+        startGame();
+        run = true;
+    }
+    if (e.key == "w" || e.key == 'ArrowUp') {
+        snake.currDirection = 'up';
+    }
+    else if (e.key == "s" || e.key == 'ArrowDown') {
+        snake.currDirection = 'down';
+    }
+    else if (e.key == "a" || e.key == 'ArrowLeft') {
+        snake.currDirection = 'left';
+    }
+    else if (e.key == "d" || e.key == 'ArrowRight') {
+        snake.currDirection = 'right';
+    }
+})
+
