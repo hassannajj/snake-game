@@ -86,6 +86,22 @@ class Snake {
 
 }
 
+function changeMode(difficulty) {
+    switch (difficulty.value) {
+        case 'easy':
+            difficultyTime = 75;
+        case 'medium': 
+            difficultyTime = 60;
+        case 'hard':
+            difficultyTime = 35;
+        case 'insane':
+            difficultyTime = 30;
+    }
+    loseScreen();
+    resetGame();
+
+}
+
 function resetGrid() {
     // deletes all the grid divs
     let squares = content.querySelectorAll('div');
@@ -218,6 +234,8 @@ let score = document.getElementById('current-score');
 let highScore = document.getElementById('high-score');
 updateHighScore();
 
+let difficultyTime = 75
+
 
 createGrid();
 placeFood();
@@ -251,7 +269,7 @@ function resetGame() {
 
 
 function startGame() {
-    intervalId = setInterval(updateGame, 75); // set time based on difficult
+    intervalId = setInterval(updateGame, difficultyTime); // set time based on difficult
 }
 
 window.addEventListener('resize', () => 
