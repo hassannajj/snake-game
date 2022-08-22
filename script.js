@@ -28,7 +28,10 @@ function randomizeFood() {
 
 function drawFood() {
     let foodDiv = document.getElementById(`${foodX}-${foodY}`);
+    foodDiv.style.cssText = "box-shadow:0px 0px 0px 1px black;"
     foodDiv.style.backgroundColor = 'red';
+
+
 }
 
 function placeFood() {

@@ -53,7 +53,9 @@ class Snake {
         for (let i=0; i<this.body.length; i++) {
             if (this.coordinatesInGrid(this.body[i][0], this.body[i][1])) {
                 let snakeBlock = document.getElementById(`${this.body[i][0]}-${this.body[i][1]}`)
+                snakeBlock.style.cssText = "box-shadow:0px 0px 0px 1px black;"
                 snakeBlock.style.backgroundColor = 'grey';
+
             }
 
         }
