@@ -53,7 +53,7 @@ class Snake {
         for (let i=0; i<this.body.length; i++) {
             if (this.coordinatesInGrid(this.body[i][0], this.body[i][1])) {
                 let snakeBlock = document.getElementById(`${this.body[i][0]}-${this.body[i][1]}`)
-                snakeBlock.style.backgroundColor = 'white';
+                snakeBlock.style.backgroundColor = 'grey';
             }
 
         }
