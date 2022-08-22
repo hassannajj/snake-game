@@ -7,7 +7,7 @@ body {
 }
 
 .background {
-    height: 90vh;
+    height: 85vh;
     padding: 0px 20px 30px 20px;
     background-color:darkcyan;
     display: flex;
@@ -32,6 +32,6 @@ body {
 }
 
 .square {
-    height: 12px;
-    width: 12px;
+    height: 25px;
+    width: 25px;
 }

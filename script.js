@@ -151,8 +151,8 @@ function createGrid() {
     reset();  // change the name of this function maybe
 
     // Put this 12 on the advanced settings js / json / txtfile
-    columns = Math.floor(content.offsetWidth/12);
-    rows = Math.floor(content.offsetHeight/12);
+    columns = Math.floor(content.offsetWidth/25);
+    rows = Math.floor(content.offsetHeight/25);
 
     content.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
     content.style.gridTemplateRows = `repeat(${rows}, 1fr)`;;
@@ -195,7 +195,7 @@ function updateGame() {
 
 function startGame() {
     //setInterval(() => updateGame(), 50); // set time based on difficulty
-    intervalId = setInterval(updateGame, 50); // set time based on difficult
+    intervalId = setInterval(updateGame, 75); // set time based on difficult
 }
 
 window.addEventListener('resize', () => 
@@ -211,16 +211,16 @@ document.addEventListener('keydown', (e) => {
         startGame();
         run = true;
     }
-    if (e.key == "w" || e.key == 'ArrowUp') {
+    if ((e.key == "w" || e.key == 'ArrowUp') && (snake.currDirection != 'down' || snake.body.length == 1)) {
         snake.currDirection = 'up';
     }
-    else if (e.key == "s" || e.key == 'ArrowDown') {
+    else if ((e.key == "s" || e.key == 'ArrowDown') && (snake.currDirection != 'up' || snake.body.length == 1)) {
         snake.currDirection = 'down';
     }
-    else if (e.key == "a" || e.key == 'ArrowLeft') {
+    else if ((e.key == "a" || e.key == 'ArrowLeft') && (snake.currDirection != 'right' || snake.body.length == 1)) {
         snake.currDirection = 'left';
     }
-    else if (e.key == "d" || e.key == 'ArrowRight') {
+    else if ((e.key == "d" || e.key == 'ArrowRight') && (snake.currDirection != 'left' || snake.body.length == 1)) {
         snake.currDirection = 'right';
     }
 })
