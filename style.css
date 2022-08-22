@@ -1,5 +1,6 @@
 * {
     color: white;
+
 }
 
 body {
@@ -29,6 +30,7 @@ body {
 .scores {
     display: flex;
     justify-content: space-between;
+    text-align: center;
 }
 
 .square {

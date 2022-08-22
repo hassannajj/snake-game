@@ -38,7 +38,6 @@ class Snake {
         for (let i=0; i<amount; i++) {
             // this pushes the current location of the food to the tail of the snake
             this.body.push([this.headX, this.headY]);
-        console.log(this.body);
         }
     }
 
@@ -102,7 +101,6 @@ function randomizeFood() {
 function drawFood() {
     let foodDiv = document.getElementById(`${foodX}-${foodY}`);
     foodDiv.style.backgroundColor = 'red';
-
 }
 
 function placeFood() {
@@ -113,8 +111,25 @@ function placeFood() {
 function foodCollide() {
     if (snake.headX == foodX && snake.headY == foodY) {
         snake.grow(1);
+        increaseScore();
         placeFood();
     }
+}
+
+function increaseScore() {
+    let intScore = parseInt(score.innerText);
+    intScore += 1;
+    score.innerText = `${intScore}`;
+}
+
+function updateHighScore() {
+    let intScore = parseInt(score.innerText);
+    if (! localStorage['high-score']) {
+        localStorage['high-score'] = intScore;
+    } else if (intScore > localStorage['high-score']) {
+        localStorage['high-score'] = intScore;
+    }
+    highScore.innerText = `${localStorage['high-score']}`;
 }
 
 function wallCollide() {
@@ -165,6 +180,7 @@ function loseScreen() {
     retryButton.innerText = 'Retry';
     retryButton.onclick = resetGame;
 
+    updateHighScore();
     
 }
 
@@ -198,6 +214,9 @@ let end = false;
 let foodX = 0;
 let foodY = 0;
 let intervalId = 0;
+let score = document.getElementById('current-score');
+let highScore = document.getElementById('high-score');
+updateHighScore();
 
 
 createGrid();
@@ -220,10 +239,14 @@ function resetGame() {
     let endScreen = document.getElementById('end-screen');
     endScreen.remove();
     end = false;
+
     createGrid();
     placeFood();
+
     snake.reset();
     snake.update();
+
+    score.innerText = '1';
 }
 
 
