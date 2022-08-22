@@ -4,13 +4,13 @@
 }
 
 body {
-    background-color: darkcyan;
+    background-color:slategrey
 }
 
 .background {
     height: 90vh;
     padding: 0px 20px 30px 20px;
-    background-color:darkcyan;
+    background-color:slategray;
     display: flex;
     flex-direction: column;
     gap: 10px;
