@@ -2,12 +2,16 @@ function changeMode(difficulty) {
     switch (difficulty.value) {
         case 'easy':
             difficultyTime = 75;
+            break;
         case 'medium': 
             difficultyTime = 60;
+            break;
         case 'hard':
             difficultyTime = 35;
+            break;
         case 'insane':
             difficultyTime = 30;
+            break;
     }
     loseScreen();
     resetGame();
@@ -149,7 +153,7 @@ let score = document.getElementById('current-score');
 let highScore = document.getElementById('high-score');
 updateHighScore();
 
-let difficultyTime = 75
+let difficultyTime = 75;
 
 
 createGrid();
@@ -166,6 +170,7 @@ function updateGame() {
     checkCollisions();
     snake.selectAndDrawDivs();
     snake.update();
+    console.log(difficultyTime);
 }
 
 function resetGame() {
