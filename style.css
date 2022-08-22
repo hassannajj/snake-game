@@ -7,7 +7,7 @@ body {
 }
 
 .background {
-    height: 85vh;
+    height: 90vh;
     padding: 0px 20px 30px 20px;
     background-color:darkcyan;
     display: flex;
@@ -34,4 +34,31 @@ body {
 .square {
     height: 25px;
     width: 25px;
+}
+
+#end-screen {
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+    height: 150px;
+    background-color: black;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+#retry {
+    width: 80px;
+    height: 30px;
+    color: black;
+}
+
+#retry:hover {
+    background-color: grey;
 }

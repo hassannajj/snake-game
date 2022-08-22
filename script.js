@@ -8,9 +8,17 @@ class Snake {
     constructor() {
         this.headX = 1;
         this.headY = 1;
-        this.headDiv = document.getElementById('1-1');
         this.currDirection = '';
         this.body = [[this.headX, this.headY]];
+    }
+
+    reset() {
+        this.headX = 1;
+        this.headY = 1;
+        this.currDirection = '';
+        this.body = [[this.headX, this.headY]];
+
+
     }
 
     moveUp() {
@@ -79,7 +87,7 @@ class Snake {
 
 }
 
-function reset() {
+function resetGrid() {
     // deletes all the grid divs
     let squares = content.querySelectorAll('div');
     squares.forEach((div) => div.remove());
@@ -143,12 +151,26 @@ function checkCollisions() {
 }
 
 function loseScreen() {
+    run = false;
+    end = true;
     clearInterval(intervalId);
+    let endScreen = document.createElement('div');
+    endScreen.id = 'end-screen';
+    content.appendChild(endScreen);
+    endScreen.innerText = "You lost!"
+
+    let retryButton = document.createElement('button');
+    retryButton.id = 'retry';
+    endScreen.appendChild(retryButton);
+    retryButton.innerText = 'Retry';
+    retryButton.onclick = resetGame;
+
+    
 }
 
 
 function createGrid() {
-    reset();  // change the name of this function maybe
+    resetGrid();  // change the name of this function maybe
 
     // Put this 12 on the advanced settings js / json / txtfile
     columns = Math.floor(content.offsetWidth/25);
@@ -172,6 +194,7 @@ let rows = 0;
 let columns = 0;
 let content = document.getElementById('content');
 let run = false;
+let end = false;
 let foodX = 0;
 let foodY = 0;
 let intervalId = 0;
@@ -193,21 +216,33 @@ function updateGame() {
     snake.update();
 }
 
+function resetGame() {
+    let endScreen = document.getElementById('end-screen');
+    endScreen.remove();
+    end = false;
+    createGrid();
+    placeFood();
+    snake.reset();
+    snake.update();
+}
+
+
 function startGame() {
-    //setInterval(() => updateGame(), 50); // set time based on difficulty
     intervalId = setInterval(updateGame, 75); // set time based on difficult
 }
 
 window.addEventListener('resize', () => 
 {
-    createGrid();
-    placeFood();
-    snake.selectAndDrawDivs();
+    if (run) {
+        createGrid();
+        placeFood();
+        snake.selectAndDrawDivs();
+    }
 
 });
 
 document.addEventListener('keydown', (e) => {
-    if (!run) {
+    if (!run && !end) {
         startGame();
         run = true;
     }
